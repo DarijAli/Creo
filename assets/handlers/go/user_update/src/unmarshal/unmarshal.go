@@ -2,7 +2,7 @@ package unmarshal
 
 import (
 	"encoding/json"
-	"user_update/src/models"
+	"templates/go/lib/user_update/src/models"
 )
 
 // Returns a User struct

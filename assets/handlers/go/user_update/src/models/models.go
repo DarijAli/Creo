@@ -1,7 +1,7 @@
 package models
 
 import (
-	"user_update/src/hash"
+	"templates/go/lib/user_update/src/hash"
 
 	"github.com/go-playground/validator/v10"
 )

@@ -1,0 +1,22 @@
+import_path: rng
+description: "Simple function to generate random numbers."
+is_async: false
+returns: true
+signature:
+  function: GenerateRandomNumbers
+  parameters:
+    - arg: 0
+      type: integer
+      format: int
+      minimum: 1
+      maximum: 1000
+    - arg: 1
+      type: integer
+      format: int
+      minimum: 1
+      maximum: 1000
+    - arg: 2
+      type: integer
+      format: int
+      minimum: 1
+      maximum: 1000

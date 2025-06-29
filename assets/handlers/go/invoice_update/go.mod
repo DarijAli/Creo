@@ -1,4 +1,4 @@
-module invoice_update
+module templates/go/lib/invoice_update
 
 go 1.24.1
 

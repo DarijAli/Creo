@@ -1,0 +1,39 @@
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"net/url"
+	"os"
+)
+
+func {{name}}(client *http.Client) error {
+	{{#if requires_data}}
+	data := {{query_data_func}}()
+	query := url.Values{}
+	for key, value := range data {
+		query.Add(key, value)
+	}
+	{{/if}}
+
+	host := os.Getenv("{{host_env_var}}")
+	if host == "" {
+		return fmt.Errorf("missing environment variable: {{host_env_var}}")
+	}
+
+	urlStr := fmt.Sprintf("http://%s{{path}}{{#if requires_data}}?%s{{/if}}", host{{#if requires_data}}, query.Encode(){{/if}})
+
+	req, err := http.NewRequest("GET", urlStr, nil)
+	if err != nil {
+		log.Printf("Failed to build GET request: %v", err)
+		return err
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Printf("Failed to send GET request: %v", err)
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
+}

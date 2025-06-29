@@ -1,0 +1,67 @@
+{{#if query_params}}
+type QueryParams{{endpoint_index}} struct {
+{{#each query_params}}
+    {{name}} {{type}} `json:"{{json_name}}" validate:"{{validation_tags}}"`
+{{/each}}
+}
+{{/if}}
+
+{{#if description}}
+// {{description}}
+{{/if}}
+
+func {{name}}(
+    w http.ResponseWriter,
+    r *http.Request,
+    {{#if has_service_calls}}
+    client ServiceClient,
+    {{/if}}
+) {
+    {{#if query_params}}
+    var params QueryParams{{endpoint_index}}
+
+    {{/if}}
+
+    {{#if has_service_calls}}
+    // Perform service call
+    err := client.{{service_call_function_name}}()
+    if err != nil {
+        http.Error(w, "Service call failed: "+err.Error(), http.StatusInternalServerError)
+        return
+    }
+    {{/if}}
+
+    // Read request body
+    body, err := io.ReadAll(r.Body)
+    if err != nil {
+        http.Error(w, "Failed to read body: "+err.Error(), http.StatusBadRequest)
+        return
+    }
+    defer r.Body.Close()
+
+    {{#if has_return_type}}
+    result, err := {{handler_func_name}}({{#each handler_args}}{{#unless is_body_arg}}params.{{name}}{{/unless}}{{#if is_body_arg}}body{{/if}}{{#unless @last}}, {{/unless}}{{/each}})
+    if err != nil {
+        http.Error(w, "Handler error: "+err.Error(), http.StatusInternalServerError)
+        return
+    }
+    {{else}}
+    err = {{handler_func_name}}(
+        {{#each handler_args}}
+            {{#unless is_body_arg}}params.{{name}}{{/unless}}{{#if is_body_arg}}body{{/if}}{{#unless @last}}, {{/unless}}
+        {{/each}}
+    )
+    if err != nil {
+        http.Error(w, "Handler error: "+err.Error(), http.StatusInternalServerError)
+        return
+    }
+    {{/if}}
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    {{#if has_return_type}}
+    json.NewEncoder(w).Encode(result)
+    {{else}}
+    w.Write([]byte("OK"))
+    {{/if}}
+}

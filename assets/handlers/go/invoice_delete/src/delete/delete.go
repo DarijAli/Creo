@@ -3,7 +3,7 @@ package delete_invoice
 import (
 	"context"
 	"fmt"
-	"invoice_delete/src/db"
+	"templates/go/lib/invoice_delete/src/db"
 	"time"
 )
 

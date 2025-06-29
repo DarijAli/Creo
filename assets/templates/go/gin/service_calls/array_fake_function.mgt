@@ -1,0 +1,8 @@
+func {{name}}() []interface{} {
+	length := {{exclusive_max_items}} - {{inclusive_min_items}}
+	result := make([]interface{}, length)
+	for i := 0; i < length; i++ {
+		result[i] = {{fake_func.name}}({{fake_func.args}})
+	}
+	return result
+}

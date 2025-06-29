@@ -1,0 +1,45 @@
+func {{name}}(c *gin.Context) {
+    {{#if query_params}}
+    var params struct {
+        {{#each query_params}}
+        {{>query_param}}
+        {{/each}}
+    }
+    if err := c.BindQuery(&params); err != nil {
+        c.JSON(400, gin.H{"error": err.Error()})
+        return
+    }
+    {{/if}}
+
+    {{#if has_service_calls}}
+    client := http_client.GetHTTPClient()
+    calls := {{service_call_function_name}}(client)
+    {{/if}}
+
+    {{#if has_return_type}}
+    result, _ := {{handler_func_name}}({{#each handler_args}}{{#if ../query_params}}params.{{titleCase name}}{{#unless @last}}, {{/unless}}{{/if}}{{#unless ../query_params}} {{name}}{{#unless @last}}, {{/unless}}{{/unless}} {{/each}})
+    {{/if}}
+
+    {{#unless has_return_type}}
+    {{handler_func_name}}(
+        {{#each handler_args}}
+            {{name}}{{#unless @last}}, {{/unless}}
+        {{/each}}
+    )
+    {{/unless}}
+
+    {{#if has_service_calls}}
+    if err := calls; err != nil {
+        c.JSON(500, gin.H{"error": err.Error()})
+        return
+    }
+    {{/if}}
+
+    {{#if has_return_type}}
+    c.JSON(200, result)
+    {{/if}}
+
+    {{#unless has_return_type}}
+    c.Status(200)
+    {{/unless}}
+}

@@ -2,9 +2,9 @@ package update
 
 import (
 	"context"
-	"user_update/src/db"
-	"user_update/src/models"
-	"user_update/src/unmarshal"
+	"templates/go/lib/user_update/src/db"
+	"templates/go/lib/user_update/src/models"
+	"templates/go/lib/user_update/src/unmarshal"
 
 	"go.mongodb.org/mongo-driver/bson"
 )

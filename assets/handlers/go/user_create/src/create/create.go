@@ -2,9 +2,9 @@ package create
 
 import (
 	"context"
-	"user_create/src/db"
-	"user_create/src/models"
-	"user_create/src/unmarshal"
+	"templates/go/lib/user_create/src/db"
+	"templates/go/lib/user_create/src/models"
+	"templates/go/lib/user_create/src/unmarshal"
 )
 
 // Creates a new user in Database.

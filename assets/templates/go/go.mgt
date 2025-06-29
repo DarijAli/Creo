@@ -1,0 +1,9 @@
+module templates/go
+
+go 1.24.1
+
+{{#if dependencies}}
+{{#each dependencies}}
+    {{this}}
+{{/each}}
+{{/if}}

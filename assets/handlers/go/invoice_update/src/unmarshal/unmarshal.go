@@ -2,7 +2,7 @@ package unmarshal
 
 import (
 	"encoding/json"
-	"invoice_update/src/models"
+	"templates/go/lib/invoice_update/src/models"
 )
 
 // Returns an Invoice struct

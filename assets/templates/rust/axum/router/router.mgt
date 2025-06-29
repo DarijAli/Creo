@@ -24,7 +24,7 @@ pub fn router() -> Router {
 {{#each http_post_operations}}
 {{>post_operation}}
 {{/each}}
-{{#each http_get_operations}}
+{{#each http_get_operations}}t
 {{>get_operation}}
 {{/each}}
 

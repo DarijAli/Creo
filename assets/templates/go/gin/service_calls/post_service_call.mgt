@@ -1,0 +1,49 @@
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"net/url"
+	"os"
+)
+
+func {{name}}(client *http.Client) error {
+	{{#if requires_query_data}}
+	data := {{query_data_func}}()
+	query := url.Values{}
+	for key, value := range data {
+		query.Add(key, value)
+	}
+	{{/if}}
+
+	host := os.Getenv("{{host_env_var}}")
+	if host == "" {
+		return fmt.Errorf("missing environment variable: {{host_env_var}}")
+	}
+
+	urlStr := fmt.Sprintf("http://%s{{path}}{{#if requires_query_data}}?%s{{/if}}", host{{#if requires_query_data}}, query.Encode(){{/if}})
+
+	payload := {{body_data_func}}()
+	jsonData, err := json.Marshal(payload)
+	if err != nil {
+		log.Printf("Failed to serialize payload: %v", err)
+		return err
+	}
+
+	req, err := http.NewRequest("POST", urlStr, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Printf("Failed to build request: %v", err)
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Printf("Failed to request: %v", err)
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
+}

@@ -1,0 +1,18 @@
+package main
+
+import (
+    "net/http"
+    "sync"
+)
+
+var (
+    clientOnce sync.Once
+    client     *http.Client
+)
+
+func GetHTTPClient() *http.Client {
+    clientOnce.Do(func() {
+        client = &http.Client{}
+    })
+    return client
+}
