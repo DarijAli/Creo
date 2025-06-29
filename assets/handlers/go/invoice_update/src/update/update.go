@@ -2,8 +2,8 @@ package update
 
 import (
 	"context"
-	"invoice_update/src/db"
-	"invoice_update/src/unmarshal"
+	"templates/go/lib/invoice_update/src/db"
+	"templates/go/lib/invoice_update/src/unmarshal"
 
 	"go.mongodb.org/mongo-driver/bson"
 )

@@ -1,4 +1,4 @@
-module matrix
+module templates/go/lib/matrix
 
 go 1.24.1
 

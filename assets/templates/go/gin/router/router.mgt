@@ -1,0 +1,30 @@
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+    {{#each type_imports}}
+    "{{this.import}}"
+    {{/each}}
+    {{#each service_call_imports}}
+    "{{this.import}}"
+    {{/each}}
+    {{#each handler_func_imports}}
+    . "{{this.import}}"
+    {{/each}}
+)
+
+func RegisterRoutes(r *gin.Engine) {
+{{#each http_post_operations}}
+    r.POST("{{this.path}}", {{this.name}})
+{{/each}}
+{{#each http_get_operations}}
+    r.GET("{{this.path}}", {{this.name}})
+{{/each}}
+}
+
+{{#each http_post_operations}}
+{{>post_operation}}
+{{/each}}
+{{#each http_get_operations}}
+{{>get_operation}}
+{{/each}}

@@ -1,4 +1,4 @@
-module invoice_read
+module templates/go/lib/invoice_read
 
 go 1.24.1
 

@@ -2,8 +2,8 @@ package delete
 
 import (
 	"context"
+	"templates/go/lib/user_delete/src/db"
 	"time"
-	"user_delete/src/db"
 
 	"go.mongodb.org/mongo-driver/bson"
 )

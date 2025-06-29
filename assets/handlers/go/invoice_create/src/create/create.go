@@ -2,9 +2,9 @@ package create
 
 import (
 	"context"
-	"invoice_create/src/db"
-	"invoice_create/src/models"
-	"invoice_create/src/unmarshal"
+	"templates/go/lib/invoice_create/src/db"
+	"templates/go/lib/invoice_create/src/models"
+	"templates/go/lib/invoice_create/src/unmarshal"
 )
 
 // Creates invoice for the given invoice data.

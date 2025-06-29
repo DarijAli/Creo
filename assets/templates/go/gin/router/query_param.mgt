@@ -1,0 +1,1 @@
+{{titleCase name}} {{param_type}} `form:"{{name}}" binding:"{{#if required}}required{{/if}}{{#if min_length}}min={{min_length}},{{/if}}{{#if max_length}}max={{max_length}},{{/if}}{{#if pattern}}regexp={{pattern}},{{/if}}{{#if enum}}oneof={{enum}}{{/if}}"`

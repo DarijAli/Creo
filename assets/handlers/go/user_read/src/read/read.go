@@ -3,10 +3,10 @@ package read
 import (
 	"context"
 	"errors"
+	"templates/go/lib/user_read/src/db"
+	"templates/go/lib/user_read/src/models"
+	"templates/go/lib/user_read/src/unmarshal"
 	"time"
-	"user_read/src/db"
-	"user_read/src/models"
-	"user_read/src/unmarshal"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

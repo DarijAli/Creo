@@ -3,9 +3,9 @@ package read_invoice
 import (
 	"context"
 	"errors"
-	"invoice_read/src/db"
-	"invoice_read/src/models"
-	"invoice_read/src/unmarshal"
+	"templates/go/lib/invoice_read/src/db"
+	"templates/go/lib/invoice_read/src/models"
+	"templates/go/lib/invoice_read/src/unmarshal"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"

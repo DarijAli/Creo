@@ -1,4 +1,4 @@
-module user_create
+module templates/go/lib/user_create
 
 go 1.24.1
 
