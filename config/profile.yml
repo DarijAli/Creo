@@ -15,7 +15,7 @@ benchmark:
     - 150
   iterations: 5
   benchmark_duration: 900
-  virtual_users: 450
+  virtual_users: 600
   warmup_pause: 10
   warmup_duration: 120
   warmup_rps: 10

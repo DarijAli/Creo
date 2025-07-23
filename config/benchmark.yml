@@ -1,4 +1,4 @@
-application: my_first_application
+application: matrix-benchmark
 ssh:
   key_file: ~/.ssh/id_ed25519
   user_name: syed
@@ -16,4 +16,4 @@ benchmark:
     profile: getting_started.csv
   virtual_user: 200
   timeout: 8000
-  records: 3000000
+  records: 30000

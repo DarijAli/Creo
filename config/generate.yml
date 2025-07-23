@@ -1,6 +1,7 @@
 # `name` specifies the name of the application.
 # This will be used as the name of the output directory.
-name: my_first_application
+name: user-create-rs
+seed: xfXAK0gC0WjUdXHp
 # `mode` specifies the generation mode.
 mode: auto_pilot
 topology:
