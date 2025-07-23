@@ -10,7 +10,7 @@ import (
 )
 
 // Updates the user by ID.
-func UpdateUserById(id int, jsonData []byte) (bool, error) {
+func UpdateUserByID(id int, jsonData []byte) (bool, error) {
 	userStruct, err := unmarshal.UnmarshalUser(jsonData)
 	if err != nil {
 		return false, err

@@ -10,7 +10,7 @@ topology:
 workload:
   # `programming_languages` specifies the programming languages that may be used for
   # the microservices of the application.
-  programming_languages: [rust, python]
+  programming_languages: [rust, python, go]
   # `service_types` specifies the types of microservices comprising the application.
   # In this case, we define two service types. The first type defines a microservice,
   # for which 100% of the microservice's endpoints should consume `HIGH` CPU.
