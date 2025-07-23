@@ -11,6 +11,7 @@ use std::str::FromStr;
 pub enum ProgrammingLanguage {
     Python(usize),
     Rust(usize),
+    Go(usize),
 }
 
 use ProgrammingLanguage::*;
@@ -22,6 +23,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => "python",
             Rust(_) => "rust",
+            Go(_) => "go",
         }
     }
 
@@ -30,6 +32,7 @@ impl ProgrammingLanguage {
         match self {
             Python(f) => *f,
             Rust(f) => *f,
+            Go(f) => *f,
         }
     }
 }
@@ -39,6 +42,7 @@ impl std::fmt::Display for ProgrammingLanguage {
         match self {
             Python(_) => f.write_str("Python"),
             Rust(_) => f.write_str("Rust"),
+            Go(_) => f.write_str("Go"),
         }
     }
 }
@@ -58,6 +62,7 @@ impl FromStr for ProgrammingLanguage {
         match name {
             "python" => Ok(Python(fraction)),
             "rust" => Ok(Rust(fraction)),
+            "go" => Ok(Go(fraction)),
             _ => Err(format!("unknown programming language {}", s)),
         }
     }

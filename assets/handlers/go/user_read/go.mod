@@ -1,4 +1,4 @@
-module user_read
+module templates/go/lib/user_read
 
 go 1.24.1
 

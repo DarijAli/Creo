@@ -1,8 +1,8 @@
 package models
 
 import (
+	"templates/go/lib/user_create/src/hash"
 	"time"
-	"user_create/src/hash"
 
 	"github.com/go-playground/validator/v10"
 )

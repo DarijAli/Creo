@@ -1,12 +1,13 @@
-programming_language: python
-application: profile-node
+programming_language: go
+application: profile-go
 ssh_config:
   key_file: ~/.ssh/id_ed25519
   master_hosts:
-    - 10.1.3.43
+    - 10.1.20.230
   worker_hosts:
-    - 10.1.3.19
-  user_name: matthias
+    - 10.1.20.229
+    - 10.1.20.232
+  user_name: syed
 benchmark:
   rps:
     - 25

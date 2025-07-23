@@ -6,6 +6,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => generator::python::DOCKERFILE_TEMPLATE_PATH,
             Rust(_) => generator::rust::DOCKERFILE_TEMPLATE_PATH,
+            Go(_) => generator::go::DOCKERFILE_TEMPLATE_PATH,
         }
     }
 }

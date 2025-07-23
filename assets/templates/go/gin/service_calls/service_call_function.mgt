@@ -1,0 +1,30 @@
+{{#each post_service_calls}}
+{{>post_service_call}}
+
+{{/each}}
+{{#each get_service_calls}}
+{{>get_service_call}}
+
+{{/each}}
+
+func {{name}}(client *http.Client) {
+	var wg sync.WaitGroup
+
+	wg.Add({{add (len post_service_calls) (len get_service_calls)}})
+
+	{{#each post_service_calls}}
+	go func() {
+		defer wg.Done()
+		{{name}}(client)
+	}()
+	{{/each}}
+
+	{{#each get_service_calls}}
+	go func() {
+		defer wg.Done()
+		{{name}}(client)
+	}()
+	{{/each}}
+
+	wg.Wait()
+}

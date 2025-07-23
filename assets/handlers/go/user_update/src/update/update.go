@@ -2,15 +2,15 @@ package update
 
 import (
 	"context"
-	"user_update/src/db"
-	"user_update/src/models"
-	"user_update/src/unmarshal"
+	"templates/go/lib/user_update/src/db"
+	"templates/go/lib/user_update/src/models"
+	"templates/go/lib/user_update/src/unmarshal"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 // Updates the user by ID.
-func UpdateUserById(id int, jsonData []byte) (bool, error) {
+func UpdateUserByID(id int, jsonData []byte) (bool, error) {
 	userStruct, err := unmarshal.UnmarshalUser(jsonData)
 	if err != nil {
 		return false, err

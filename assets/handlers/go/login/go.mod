@@ -1,4 +1,4 @@
-module login
+module templates/go/lib/login
 
 go 1.24.1
 

@@ -1,0 +1,23 @@
+import "math/rand"
+
+func {{name}}() map[string]interface{} {
+	obj := map[string]interface{}{
+		{{~#each props}}
+		"{{name}}": {{#unless required}}func() interface{} {
+			if rand.Float64() < {{exclude_probability}} {
+				return nil
+			}
+			return {{fake_func.name}}({{fake_func.args}})
+		}(),{{else}}{{fake_func.name}}({{fake_func.args}}),{{/unless}}
+		{{/each}}
+	}
+
+	result := make(map[string]interface{})
+	for key, value := range obj {
+		if value != nil {
+			result[key] = value
+		}
+	}
+
+	return result
+}

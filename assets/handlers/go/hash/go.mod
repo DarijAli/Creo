@@ -1,4 +1,4 @@
-module hash
+module templates/go/lib/hash
 
 go 1.24.1
 

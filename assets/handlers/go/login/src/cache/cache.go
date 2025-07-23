@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"sync"
 
-	"login/src/models"
+	"templates/go/lib/login/src/models"
 )
 
 // Used for storing and retrieving session data.
