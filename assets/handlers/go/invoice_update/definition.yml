@@ -1,4 +1,4 @@
-import_path: update_invoice
+import_path: invoice_update/src/update
 description: "Updates the invoice with the given ID."
 is_async: true
 returns: true

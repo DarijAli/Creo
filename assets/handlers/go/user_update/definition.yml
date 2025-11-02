@@ -1,4 +1,4 @@
-import_path: update_user
+import_path: user_update/src/update
 description: "Simple CRUD operations for an user entity"
 is_async: true
 returns: true

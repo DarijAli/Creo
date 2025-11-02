@@ -1,4 +1,4 @@
-import_path: register
+import_path: register/src/register
 description: "Register a user using a username, email and password."
 is_async: true
 returns: true

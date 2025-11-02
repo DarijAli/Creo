@@ -1,4 +1,4 @@
-import_path: create_invoice
+import_path: invoice_create/src/create
 description: "Inserts a given invoice into a MongoDB collection."
 is_async: true
 returns: true

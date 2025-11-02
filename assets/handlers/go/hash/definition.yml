@@ -1,4 +1,4 @@
-import_path: hash
+import_path: hash/src
 description: "Hashes the given password using the Argon2 hash function."
 is_async: false
 returns: true

@@ -16,6 +16,11 @@ func UpdateUserByID(id int, jsonData []byte) (bool, error) {
 		return false, err
 	}
 
+	// Lazy initialization of MongoDB connection for db operations
+	if db.UserDb == nil {
+		db.InitMongo()
+	}
+
 	user, _ := models.NewUser(userStruct)
 
 	updateMap := bson.M{}

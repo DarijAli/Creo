@@ -13,12 +13,17 @@ import (
 )
 
 // Gets an invoice by ID.
-func ReadInvoiceByID(id string) (*models.Invoice, error) {
+func ReadInvoiceByID(id int) (*models.Invoice, error) {
 	// Context for the MongoDB query
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	filter := bson.M{"_id": id}
+
+	// Lazy initialization of MongoDB connection for db operations
+	if db.InvoiceDb == nil {
+		db.InitMongo()
+	}
 
 	var result map[string]any
 	err := db.InvoiceCollection.FindOne(ctx, filter).Decode(&result)

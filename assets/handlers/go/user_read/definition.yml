@@ -1,4 +1,4 @@
-import_path: read_user
+import_path: user_read/src/read
 description: "Simple CRUD operations for an user entity"
 is_async: true
 returns: true

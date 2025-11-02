@@ -2,22 +2,22 @@ programming_language: go
 application: profile-go
 ssh_config:
   key_file: ~/.ssh/id_ed25519
+  user_name: syed
   master_hosts:
     - 10.1.20.230
   worker_hosts:
     - 10.1.20.229
     - 10.1.20.232
-  user_name: syed
 benchmark:
   rps:
     - 25
     - 75
     - 150
-  iterations: 5
-  benchmark_duration: 900
-  virtual_users: 600
-  warmup_pause: 10
-  warmup_duration: 120
+  iterations: 1
+  benchmark_duration: 30
+  virtual_users: 200
+  warmup_pause: 5
+  warmup_duration: 10
   warmup_rps: 10
   timeout: 8000
   records: 3000000

@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"time"
 
-	env "github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -19,12 +18,6 @@ var (
 )
 
 func InitMongo() {
-	// Load .env
-	err := env.Load("../.env")
-	if err != nil {
-		logError.Fatalf("Failed to load .env file: %v", err)
-	}
-
 	// Read env
 	host := os.Getenv("DB_MONGO_HOST")
 	portStr := os.Getenv("DB_MONGO_PORT")

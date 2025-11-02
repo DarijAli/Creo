@@ -1,4 +1,4 @@
-import_path: read_invoice
+import_path: invoice_read/src/read
 description: "Reads an invoice from a MongoDB collection by its ID."
 is_async: true
 returns: true

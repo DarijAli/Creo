@@ -1,4 +1,4 @@
-import_path: login
+import_path: login/src/login
 description: "Login a user using username/email and password authentication."
 is_async: true
 returns: true

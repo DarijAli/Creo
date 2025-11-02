@@ -15,6 +15,11 @@ func CreateUser(jsonData []byte) (string, error) {
 		return "", err
 	}
 
+	// Lazy initialization of MongoDB connection for db operations
+	if db.UserDb == nil {
+		db.InitMongo()
+	}
+
 	user, _ := models.NewUser(userStruct)
 
 	insertResult, err := db.UserCollection.InsertOne(context.Background(), user)

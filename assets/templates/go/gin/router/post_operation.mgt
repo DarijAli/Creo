@@ -11,57 +11,47 @@ type QueryParams{{endpoint_index}} struct {
 {{/if}}
 
 func {{name}}(
-    w http.ResponseWriter,
-    r *http.Request,
-    {{#if has_service_calls}}
-    client ServiceClient,
-    {{/if}}
+    c *gin.Context,{{#if has_service_calls}} client ServiceClient,{{/if}}
 ) {
     {{#if query_params}}
     var params QueryParams{{endpoint_index}}
-
+    // TODO: Bind query parameters if needed, e.g. c.BindQuery(&params)
     {{/if}}
 
     {{#if has_service_calls}}
     // Perform service call
     err := client.{{service_call_function_name}}()
     if err != nil {
-        http.Error(w, "Service call failed: "+err.Error(), http.StatusInternalServerError)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Service call failed: " + err.Error()})
         return
     }
     {{/if}}
 
     // Read request body
-    body, err := io.ReadAll(r.Body)
+    body, err := io.ReadAll(c.Request.Body)
     if err != nil {
-        http.Error(w, "Failed to read body: "+err.Error(), http.StatusBadRequest)
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read body: " + err.Error()})
         return
     }
-    defer r.Body.Close()
+    defer c.Request.Body.Close()
 
     {{#if has_return_type}}
-    result, err := {{handler_func_name}}({{#each handler_args}}{{#unless is_body_arg}}params.{{name}}{{/unless}}{{#if is_body_arg}}body{{/if}}{{#unless @last}}, {{/unless}}{{/each}})
-    if err != nil {
-        http.Error(w, "Handler error: "+err.Error(), http.StatusInternalServerError)
-        return
-    }
-    {{else}}
-    err = {{handler_func_name}}(
-        {{#each handler_args}}
-            {{#unless is_body_arg}}params.{{name}}{{/unless}}{{#if is_body_arg}}body{{/if}}{{#unless @last}}, {{/unless}}
-        {{/each}}
+    result, err := {{handler_func_name}}(
+        {{#each handler_args}}{{#if is_body_arg}}body,{{else}}params.{{name}},{{/if}}{{#unless @last}}, {{/unless}}{{/each}}
     )
     if err != nil {
-        http.Error(w, "Handler error: "+err.Error(), http.StatusInternalServerError)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Handler error: " + err.Error()})
         return
     }
-    {{/if}}
-
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusOK)
-    {{#if has_return_type}}
-    json.NewEncoder(w).Encode(result)
+    c.JSON(http.StatusOK, result)
     {{else}}
-    w.Write([]byte("OK"))
+    err = {{handler_func_name}}(
+        {{#each handler_args}}{{#if is_body_arg}}body{{else}}params.{{name}}{{/if}}{{#unless @last}}, {{/unless}}{{/each}}
+    )
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Handler error: " + err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"status": "OK"})
     {{/if}}
 }

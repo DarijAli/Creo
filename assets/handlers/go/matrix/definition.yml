@@ -1,4 +1,4 @@
-import_path: matrix
+import_path: matrix/src
 description: "Simple function to invert a random matrix of a given size."
 is_async: false
 returns: true

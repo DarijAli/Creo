@@ -1,6 +1,9 @@
 package main
 
 import (
+    "io"
+    "net/http"
+    
     "github.com/gin-gonic/gin"
     {{#each type_imports}}
     "{{this.import}}"

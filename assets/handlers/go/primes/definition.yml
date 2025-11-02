@@ -1,4 +1,4 @@
-import_path: primes
+import_path: primes/src
 description: "Simple function to generate prime numbers."
 is_async: false
 returns: true

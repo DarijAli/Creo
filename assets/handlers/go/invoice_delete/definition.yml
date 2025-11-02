@@ -1,4 +1,4 @@
-import_path: delete_invoice
+import_path: invoice_delete/src/delete
 description: "Deletes an invoice from a MongoDB collection by its ID."
 is_async: true
 returns: true

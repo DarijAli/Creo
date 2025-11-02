@@ -14,6 +14,11 @@ func CreateInvoice(jsonData []byte) (string, error) {
 		return "", err
 	}
 
+	// Lazy initialization of MongoDB connection for db operations
+	if db.InvoiceDb == nil {
+		db.InitMongo()
+	}
+
 	invoice, err := models.NewInvoice(invoiceStruct)
 	if err != nil {
 		return "", err

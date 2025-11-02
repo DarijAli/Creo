@@ -1,4 +1,4 @@
-import_path: rng
+import_path: rng/src
 description: "Simple function to generate random numbers."
 is_async: false
 returns: true

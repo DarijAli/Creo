@@ -3,12 +3,17 @@ package register
 import (
 	"encoding/json"
 	"templates/go/lib/register/src/create"
+	"templates/go/lib/register/src/db"
 	"templates/go/lib/register/src/models"
 	"templates/go/lib/register/src/read"
 )
 
 func RegisterUser(jsonData []byte) (string, error) {
 	var user models.User
+	// Lazy initialization of MongoDB connection for db operations
+	if db.RegisterDb == nil {
+		db.InitMongo()
+	}
 
 	if err := json.Unmarshal(jsonData, &user); err != nil {
 		return "", err

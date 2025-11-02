@@ -1,4 +1,4 @@
-import_path: create_user
+import_path: user_create/src/create
 description: "Simple CRUD operations for an user entity"
 is_async: true
 returns: true

@@ -45,7 +45,7 @@ impl core::SymbolGenerator for SymbolGenerator {
     }
 
     fn generate_handler_function_import(&self, import_path: &str, _function_name: &str) -> String {
-        format!("templates/go/lib/{}/src", import_path)
+        format!("templates/go/lib/{}", import_path)
     }
 
     fn generate_query_data_function_name(
