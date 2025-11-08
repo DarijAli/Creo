@@ -1,8 +1,10 @@
 package main
 
 import (
+    {{#if http_post_operations}}
     "io"
     "net/http"
+    {{/if}}
     
     "github.com/gin-gonic/gin"
     {{#each type_imports}}
