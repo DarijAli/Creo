@@ -21,14 +21,14 @@ func randomString(minLen, maxLen int) string {
 type User struct {
 	Username     string    `json:"username" validate:"required,min=3,max=64"`
 	Email        string    `json:"email" validate:"required,email,min=3,max=64"`
-	PasswordHash string    `json:"password" validate:"required,min=32,max=128"`
+	PasswordHash string    `json:"password" validate:"required,min=6,max=128"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 
 func NewRandomUser() *User {
 	username := randomString(3, 64)
 	email := randomString(3, 64) + "@example.com"
-	password := randomString(97, 97)
+	password := randomString(6, 48)
 
 	user := &User{
 		Username:     username,

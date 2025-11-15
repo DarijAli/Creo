@@ -6,6 +6,7 @@ import (
 	logError "log"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,7 +16,14 @@ import (
 var (
 	InvoiceDb         *mongo.Database
 	InvoiceCollection *mongo.Collection
+	initOnce          sync.Once
 )
+
+func InitMongoSafe() {
+	initOnce.Do(func() {
+		InitMongo()
+	})
+}
 
 func InitMongo() {
 	// Read env

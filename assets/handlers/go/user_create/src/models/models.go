@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"templates/go/lib/user_create/src/hash"
 	"time"
 
@@ -9,23 +10,23 @@ import (
 
 type User struct {
 	Username     string    `json:"username" validate:"required,min=3,max=64"`
-	Email        string    `json:"email" validate:"required,email,min=3,max=64"`
-	PasswordHash string    `json:"password" validate:"required,min=32,max=128"`
+	Email        string    `json:"email" validate:"required,min=3,max=64"`
+	PasswordHash string    `json:"password" validate:"required,min=6,max=48"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 
-// Constructor function for creating a new User
+// NewUser validates input, hashes the password and returns a user ready for storage.
 func NewUser(userData User) (*User, error) {
-	// Validate the user struct
 	validate := validator.New()
-	err := validate.Struct(userData)
-	if err != nil {
+	if err := validate.Struct(userData); err != nil {
 		return nil, err
 	}
 
-	passwordHash := hash.HashPassword(userData.PasswordHash)
+	passwordHash, err := hash.HashPassword(userData.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("hashing password: %w", err)
+	}
 
-	// Create a new user
 	user := &User{
 		Username:     userData.Username,
 		Email:        userData.Email,

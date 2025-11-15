@@ -6,6 +6,7 @@ import (
 	logError "log"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,9 +16,17 @@ import (
 var (
 	InvoiceDb         *mongo.Database
 	InvoiceCollection *mongo.Collection
+	initOnce          sync.Once
 )
 
+func InitMongoSafe() {
+	initOnce.Do(func() {
+		InitMongo()
+	})
+}
+
 func InitMongo() {
+	// Read env
 	host := os.Getenv("DB_MONGO_HOST")
 	portStr := os.Getenv("DB_MONGO_PORT")
 	user := os.Getenv("DB_MONGO_USER")
@@ -46,7 +55,6 @@ func InitMongo() {
 
 	log.Println("✅ Connected to MongoDB!")
 
-	// Assign exported variables
 	InvoiceDb = client.Database("invoice_db")
 	InvoiceCollection = InvoiceDb.Collection("invoice_collection")
 }

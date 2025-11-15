@@ -38,7 +38,7 @@ func seedDatabase(seedCount int) error {
 	for batch := range batched(1, seedCount, batchSize) {
 		var docs []interface{}
 		for _, id := range batch {
-			inv, err := models.NewInvoice(nil)
+			inv, err := models.NewInvoice(&models.Invoice{})
 			if err != nil {
 				return fmt.Errorf("failed to create invoice: %w", err)
 			}

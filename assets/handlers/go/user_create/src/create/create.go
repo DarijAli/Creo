@@ -5,6 +5,8 @@ import (
 	"templates/go/lib/user_create/src/db"
 	"templates/go/lib/user_create/src/models"
 	"templates/go/lib/user_create/src/unmarshal"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Creates a new user in Database.
@@ -15,18 +17,18 @@ func CreateUser(jsonData []byte) (string, error) {
 		return "", err
 	}
 
-	// Lazy initialization of MongoDB connection for db operations
-	if db.UserDb == nil {
-		db.InitMongo()
-	}
+	db.InitMongoSafe()
 
-	user, _ := models.NewUser(userStruct)
+	user, err := models.NewUser(userStruct)
+	if err != nil {
+		return "", err
+	}
 
 	insertResult, err := db.UserCollection.InsertOne(context.Background(), user)
 	if err != nil {
 		return "", err
 	}
 
-	// Return the inserted ID as string
-	return insertResult.InsertedID.(string), nil
+	id := insertResult.InsertedID.(primitive.ObjectID).Hex()
+	return id, nil
 }

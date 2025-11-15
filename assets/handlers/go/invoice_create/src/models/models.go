@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -22,14 +23,14 @@ type Item struct {
 }
 
 type OrderItem struct {
-	Item     Item `json:"item" validate:"required,dive"`
+	Item     Item `json:"item" validate:"required"`
 	Quantity int  `json:"quantity" validate:"required,gt=0"`
 }
 
 type Invoice struct {
-	Items           []OrderItem `json:"items" validate:"required,dive"`
-	BillingAddress  Address     `json:"billing_address" validate:"required,dive"`
-	ShippingAddress Address     `json:"shipping_address" validate:"required,dive"`
+	Items           []OrderItem `json:"items" validate:"required"`
+	BillingAddress  Address     `json:"billing_address" validate:"required"`
+	ShippingAddress Address     `json:"shipping_address" validate:"required"`
 	UserID          string      `json:"user_id" validate:"required"`
 	TaxRate         float64     `json:"tax_rate" validate:"gte=0"`
 	IssuedAt        time.Time   `json:"issued_at"`
@@ -39,22 +40,25 @@ type Invoice struct {
 }
 
 // Constructor function to create and validate new invoice.
-func NewInvoice(invoiceData Invoice) (*Invoice, error) {
+func NewInvoice(inv *Invoice) (*Invoice, error) {
+	if inv == nil {
+		return nil, fmt.Errorf("invoice cannot be nil")
+	}
+
+	// Default time
+	if inv.IssuedAt.IsZero() {
+		inv.IssuedAt = time.Now().UTC()
+	}
+
+	// Default status
+	if inv.Status == "" {
+		inv.Status = "OPEN"
+	}
+
 	validate := validator.New()
-	err := validate.Struct(invoiceData)
-	if err != nil {
+	if err := validate.Struct(inv); err != nil {
 		return nil, err
 	}
 
-	// if IssuedAt is zero, set current time
-	if invoiceData.IssuedAt.IsZero() {
-		invoiceData.IssuedAt = time.Now().UTC()
-	}
-
-	// if Status is empty, default to "OPEN"
-	if invoiceData.Status == "" {
-		invoiceData.Status = "OPEN"
-	}
-
-	return &invoiceData, nil
+	return inv, nil
 }

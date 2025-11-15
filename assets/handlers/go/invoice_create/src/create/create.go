@@ -2,24 +2,23 @@ package create
 
 import (
 	"context"
+
 	"templates/go/lib/invoice_create/src/db"
 	"templates/go/lib/invoice_create/src/models"
 	"templates/go/lib/invoice_create/src/unmarshal"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// Creates invoice for the given invoice data.
 func CreateInvoice(jsonData []byte) (string, error) {
 	invoiceStruct, err := unmarshal.UnmarshalInvoice(jsonData)
 	if err != nil {
 		return "", err
 	}
 
-	// Lazy initialization of MongoDB connection for db operations
-	if db.InvoiceDb == nil {
-		db.InitMongo()
-	}
+	db.InitMongoSafe()
 
-	invoice, err := models.NewInvoice(invoiceStruct)
+	invoice, err := models.NewInvoice(&invoiceStruct)
 	if err != nil {
 		return "", err
 	}
@@ -29,5 +28,6 @@ func CreateInvoice(jsonData []byte) (string, error) {
 		return "", err
 	}
 
-	return insertResult.InsertedID.(string), nil
+	id := insertResult.InsertedID.(primitive.ObjectID).Hex()
+	return id, nil
 }

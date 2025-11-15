@@ -8,7 +8,7 @@ import (
 
 const (
 	TIME_COST   = 1
-	MEMORY_COST = 64
+	MEMORY_COST = 6144
 	SALT_LEN    = 16
 	KEY_LEN     = 32
 )
@@ -27,7 +27,7 @@ func HashPassword(password string) (map[string]string, error) {
 	// Define custom Argon2id parameters
 	// Using this package to avoid low level salt creation etc.
 	params := &argon2.Params{
-		Memory:      MEMORY_COST * 1024,
+		Memory:      MEMORY_COST,
 		Iterations:  TIME_COST,
 		Parallelism: 2,
 		SaltLength:  SALT_LEN,

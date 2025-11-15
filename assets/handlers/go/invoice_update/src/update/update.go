@@ -15,10 +15,7 @@ func UpdateInvoice(id int, jsonData []byte) (bool, error) {
 		return false, err
 	}
 
-	// Lazy initialization of MongoDB connection for db operations
-	if db.InvoiceDb == nil {
-		db.InitMongo()
-	}
+	db.InitMongoSafe()
 
 	// Create an update map
 	updateMap := bson.M{}

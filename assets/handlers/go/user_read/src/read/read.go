@@ -13,7 +13,7 @@ import (
 )
 
 // Gets a user by ID from the Database.
-func ReadUserByID(id string) (*models.User, error) {
+func ReadUserByID(id int) (*models.User, error) {
 	// Create a context for the MongoDB query
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

@@ -18,6 +18,15 @@ func randomString(minLen, maxLen int) string {
 	return sb.String()
 }
 
+func rangeInt(start, end int) []int {
+	size := end - start + 1
+	s := make([]int, size)
+	for i := 0; i < size; i++ {
+		s[i] = start + i
+	}
+	return s
+}
+
 func randomInt(min, max int) int {
 	return min + rand.Intn(max-min+1)
 }
@@ -79,7 +88,7 @@ func NewItem(item *Item) *Item {
 }
 
 type OrderItem struct {
-	Item     Item `json:"item" validate:"required,dive"`
+	Item     Item `json:"item" validate:"required"`
 	Quantity int  `json:"quantity" validate:"required,gt=0"`
 }
 
@@ -95,9 +104,9 @@ func NewOrderItem(orderItem *OrderItem) *OrderItem {
 }
 
 type Invoice struct {
-	Items           []OrderItem `json:"items" validate:"required,dive"`
-	BillingAddress  Address     `json:"billing_address" validate:"required,dive"`
-	ShippingAddress Address     `json:"shipping_address" validate:"required,dive"`
+	Items           []OrderItem `json:"items" validate:"required"`
+	BillingAddress  Address     `json:"billing_address" validate:"required"`
+	ShippingAddress Address     `json:"shipping_address" validate:"required"`
 	UserID          string      `json:"user_id" validate:"required"`
 	TaxRate         float64     `json:"tax_rate" validate:"gte=0"`
 	IssuedAt        time.Time   `json:"issued_at"`
@@ -116,7 +125,7 @@ func NewInvoice(inv *Invoice) (*Invoice, error) {
 	if len(inv.Items) == 0 {
 		n := randomInt(1, 100)
 		items := make([]OrderItem, n)
-		for i := range n {
+		for i := range rangeInt(0, n-1) {
 			items[i] = *NewOrderItem(nil)
 		}
 		inv.Items = items

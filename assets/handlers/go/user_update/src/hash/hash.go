@@ -27,7 +27,7 @@ const (
 func HashPassword(password string) string {
 	// Define custom Argon2id parameters
 	params := &argon2.Params{
-		Memory:      MEMORY_COST * 1024,
+		Memory:      MEMORY_COST,
 		Iterations:  TIME_COST,
 		Parallelism: uint8(runtime.NumCPU()),
 		SaltLength:  SALT_LEN,
