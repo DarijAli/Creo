@@ -6,6 +6,7 @@ import (
 	logError "log"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,7 +16,14 @@ import (
 var (
 	UserDb         *mongo.Database
 	UserCollection *mongo.Collection
+	initOnce       sync.Once
 )
+
+func InitMongoSafe() {
+	initOnce.Do(func() {
+		InitMongo()
+	})
+}
 
 func InitMongo() {
 	host := os.Getenv("DB_MONGO_HOST")
@@ -30,7 +38,7 @@ func InitMongo() {
 		SetAuth(options.Credential{
 			Username: user,
 			Password: password,
-		})
+		}).SetMaxPoolSize(300)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

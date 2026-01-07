@@ -17,9 +17,7 @@ func UpdateUserByID(id int, jsonData []byte) (bool, error) {
 	}
 
 	// Lazy initialization of MongoDB connection for db operations
-	if db.UserDb == nil {
-		db.InitMongo()
-	}
+	db.InitMongoSafe()
 
 	user, _ := models.NewUser(userStruct)
 

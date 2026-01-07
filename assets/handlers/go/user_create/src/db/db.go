@@ -38,7 +38,7 @@ func InitMongo() {
 		SetAuth(options.Credential{
 			Username: user,
 			Password: password,
-		})
+		}).SetMaxPoolSize(300)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
