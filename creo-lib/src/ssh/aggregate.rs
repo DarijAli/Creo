@@ -239,6 +239,25 @@ pub async fn test_load_level(
                 }
             }
         }
+        let mut ready = false;
+        while !ready {
+            match client.get("http://localhost:9090/-/ready").send().await {
+                Ok(response) if response.status().is_success() => {
+                    log::debug!("Prometheus is ready to accept queries");
+                    ready = true;
+                }
+                Ok(response) => {
+                    log::debug!(
+                        "Prometheus not ready yet (status {}). Waiting...",
+                        response.status()
+                    );
+                }
+                Err(e) => {
+                    log::debug!("Waiting for Prometheus readiness: {}", e);
+                }
+            }
+            tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+        }
         for metric in METRICS.iter() {
             log::debug!("Pulling values for metric {}", metric.as_key());
             let url = "http://localhost:9090/api/v1/query_range";
