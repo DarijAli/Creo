@@ -1,7 +1,3 @@
-import (
-	"math/rand"
-)
-
 func {{name}}() map[string]interface{} {
 	query := map[string]interface{} {
 		{{~#each params}}

@@ -1,1 +1,59 @@
 package main
+
+import (
+	"fmt"
+	"log"
+	"math/rand"
+	"net/http"
+	"net/url"
+	"os"
+	"strings" 
+	"sync"
+	"time"
+)
+
+func GetRandomString(minLength, maxLength int) string {
+    length := rand.Intn(maxLength-minLength+1) + minLength
+    var sb strings.Builder
+    for i := 0; i < length; i++ {
+        sb.WriteByte(byte(rand.Intn(26) + 97))
+    }
+    return sb.String()
+}
+
+func GetRandomFloat(min, max float64) float64 {
+    return min + rand.Float64()*(max-min)
+}
+
+func GetRandomNumericValue(min, max int) int {
+    return rand.Intn(max-min+1) + min
+}
+
+func GetRandomBool() bool {
+    return rand.Intn(2) == 0
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+{{#each object_fake_functions}}
+{{>object_fake_function}}
+
+
+{{/each}}
+{{#each array_fake_functions}}
+{{>array_fake_function}}
+
+
+{{/each}}
+{{#each query_data_functions}}
+{{>query_data_function}}
+
+
+{{/each}}
+{{#each service_call_functions}}
+{{>service_call_function}}
+
+
+{{/each}}

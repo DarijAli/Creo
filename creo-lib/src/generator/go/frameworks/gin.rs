@@ -10,22 +10,21 @@ impl template::Fakeable for Faker {
         &self,
         _string_validation: &openapiv3::StringType,
     ) -> template::FakeFunction {
-        // direct faker.Name() call, no args needed
-        template::FakeFunction::new("faker.Name()".into(), String::new())
+        template::FakeFunction::new("GetRandomString".into(), "5, 10".into())
     }
 
     fn get_number_fake(
         &self,
         _number_validation: &openapiv3::NumberType,
     ) -> template::FakeFunction {
-        template::FakeFunction::new("faker.Float64()".into(), String::new())
+        template::FakeFunction::new("GetRandomFloat".into(), "0.0, 5000.0".into())
     }
 
     fn get_integer_fake(
         &self,
         _integer_validation: &openapiv3::IntegerType,
     ) -> template::FakeFunction {
-        template::FakeFunction::new("faker.Int()".into(), String::new())
+        template::FakeFunction::new("GetRandomNumericValue".into(), "1, 100".into())
     }
 
     fn get_object_fake(&self, function_name: &str) -> template::FakeFunction {
@@ -40,7 +39,7 @@ impl template::Fakeable for Faker {
         &self,
         _boolean_validation: &openapiv3::BooleanType,
     ) -> template::FakeFunction {
-        template::FakeFunction::new("faker.Bool()".into(), String::new())
+        template::FakeFunction::new("GetRandomBool".into(), String::new())
     }
 }
 

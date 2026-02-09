@@ -3,6 +3,7 @@ package main
 import (
     "net/http"
     "sync"
+    "time"
 )
 
 var (
@@ -12,7 +13,14 @@ var (
 
 func GetHTTPClient() *http.Client {
     clientOnce.Do(func() {
-        client = &http.Client{}
+        client = &http.Client{
+			Transport: &http.Transport{
+				MaxIdleConns:        100,
+				MaxIdleConnsPerHost: 50,
+				MaxConnsPerHost:     50,
+			},
+			Timeout: 2 * time.Second,
+		}
     })
     return client
 }

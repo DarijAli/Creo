@@ -1,17 +1,9 @@
-import (
-	"fmt"
-	"log"
-	"net/http"
-	"net/url"
-	"os"
-)
-
 func {{name}}(client *http.Client) error {
 	{{#if requires_data}}
 	data := {{query_data_func}}()
 	query := url.Values{}
 	for key, value := range data {
-		query.Add(key, value)
+		query.Add(key, fmt.Sprintf("%v", value))
 	}
 	{{/if}}
 

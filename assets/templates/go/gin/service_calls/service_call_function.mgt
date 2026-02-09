@@ -10,9 +10,8 @@
 func {{name}}(client *http.Client) {
 	var wg sync.WaitGroup
 
-	wg.Add({{add (len post_service_calls) (len get_service_calls)}})
-
 	{{#each post_service_calls}}
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		{{name}}(client)
@@ -20,6 +19,7 @@ func {{name}}(client *http.Client) {
 	{{/each}}
 
 	{{#each get_service_calls}}
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		{{name}}(client)

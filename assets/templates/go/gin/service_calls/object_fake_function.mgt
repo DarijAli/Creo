@@ -1,5 +1,3 @@
-import "math/rand"
-
 func {{name}}() map[string]interface{} {
 	obj := map[string]interface{}{
 		{{~#each props}}
