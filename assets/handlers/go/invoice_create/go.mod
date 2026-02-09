@@ -1,4 +1,4 @@
-module invoice_create
+module templates/go/lib/invoice_create
 
 go 1.24.1
 

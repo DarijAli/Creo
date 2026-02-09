@@ -1,0 +1,24 @@
+name: scaling-python
+mode: manual
+
+services:
+  - name: service1
+    language: python
+    endpoints:
+      - name: matrix
+        function: matrix
+        inter_service_calls:
+          - service2.rng
+          - service3.primes
+
+  - name: service2
+    language: python
+    endpoints:
+      - name: rng
+        function: rng
+
+  - name: service3
+    language: python
+    endpoints:
+      - name: primes
+        function: primes

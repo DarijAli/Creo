@@ -3,6 +3,9 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+{{#if service_call_imports}}
+mod service_calls;
+{{/if}}
 {{#each service_call_imports}}
 {{this.import}}
 {{/each}}
@@ -27,4 +30,3 @@ pub fn router() -> Router {
 {{#each http_get_operations}}
 {{>get_operation}}
 {{/each}}
-

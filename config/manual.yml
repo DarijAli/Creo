@@ -1,0 +1,8 @@
+name: my_first_application
+mode: manual
+services:
+  - name: hash_application
+    language: go
+    endpoints:
+      - name: hash
+        function: hash

@@ -1,7 +1,7 @@
 package hash
 
 import (
-	runtime "runtime"
+	"fmt"
 
 	argon2 "github.com/alexedwards/argon2id"
 )
@@ -13,30 +13,21 @@ const (
 	KEY_LEN     = 32
 )
 
-// Hashes a password using the Argon2id hash function and returns the hashed string
-//
-// Arguments:
-// - password {string}: The password to be hashed
-//
-// Returns:
-// - string: A string containing the hashed password
-//
-// Example:
-// hashedPassword := HashPassword("password")
-func HashPassword(password string) string {
-	// Define custom Argon2id parameters
+// HashPassword hashes a password using Argon2id and returns the hash or an error.
+// It no longer panics on failure so callers can handle errors gracefully.
+func HashPassword(password string) (string, error) {
 	params := &argon2.Params{
-		Memory:      MEMORY_COST * 1024,
+		Memory:      MEMORY_COST,
 		Iterations:  TIME_COST,
-		Parallelism: uint8(runtime.NumCPU()),
+		Parallelism: 2,
 		SaltLength:  SALT_LEN,
 		KeyLength:   KEY_LEN,
 	}
 
 	hashPassword, err := argon2.CreateHash(password, params)
 	if err != nil {
-		panic(err)
+		return "", fmt.Errorf("failed to hash password: %w", err)
 	}
 
-	return hashPassword
+	return hashPassword, nil
 }

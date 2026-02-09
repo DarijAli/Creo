@@ -4,9 +4,9 @@ import (
 	log "fmt"
 	"testing"
 
-	"login/src/cache"
-	"login/src/db"
-	"login/src/read"
+	"templates/go/lib/login/src/cache"
+	"templates/go/lib/login/src/db"
+	"templates/go/lib/login/src/read"
 
 	"github.com/alexedwards/argon2id"
 	"github.com/stretchr/testify/assert"

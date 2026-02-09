@@ -3,7 +3,7 @@ package unmarshal
 import (
 	"encoding/json"
 
-	"user_read/src/models"
+	"templates/go/lib/user_read/src/models"
 )
 
 // Converts the provided map into a User struct

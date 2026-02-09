@@ -1,10 +1,11 @@
 package login
 
 import (
-	"login/src/cache"
-	"login/src/models"
-	"login/src/read"
 	"regexp"
+	"templates/go/lib/login/src/cache"
+	"templates/go/lib/login/src/db"
+	"templates/go/lib/login/src/models"
+	"templates/go/lib/login/src/read"
 
 	argon2 "github.com/alexedwards/argon2id"
 )
@@ -16,6 +17,11 @@ var emailRegex = regexp.MustCompile(`^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0
 func LoginWithUsernameOrEmail(usernameOrEmail, password string) (*models.SessionResponse, error) {
 	var user *models.User
 	var err error
+
+	// Lazy initialization of MongoDB connection for db operations
+	if db.UserDb == nil {
+		db.InitMongo()
+	}
 
 	if emailRegex.MatchString(usernameOrEmail) {
 		user, err = read.ReadUserByEmail(usernameOrEmail)

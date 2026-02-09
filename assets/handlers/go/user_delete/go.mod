@@ -1,4 +1,4 @@
-module user_delete
+module templates/go/lib/user_delete
 
 go 1.24.1
 

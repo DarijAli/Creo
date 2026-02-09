@@ -1,0 +1,59 @@
+{{#if description}}
+// {{description}}
+{{/if}}
+
+func {{name}}(
+    c *gin.Context,{{#if has_service_calls}} client ServiceClient,{{/if}}
+) {
+    {{#if query_params}}
+    var params struct {
+        {{#each query_params}}
+        {{>query_param}}
+        {{/each}}
+    }
+    if err := c.BindQuery(&params); err != nil {
+        c.JSON(400, gin.H{"error": err.Error()})
+        return
+    }
+    {{/if}}
+
+    {{#if has_service_calls}}
+    // Perform service call
+    err := client.{{service_call_function_name}}()
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Service call failed: " + err.Error()})
+        return
+    }
+    {{/if}}
+
+    // Read request body
+    body, err := io.ReadAll(c.Request.Body)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read body: " + err.Error()})
+        return
+    }
+    defer c.Request.Body.Close()
+
+
+    {{#if has_return_type}}
+    result, err := {{handler_func_name}}(
+        {{#each handler_args}}{{#if is_body_arg}}body,{{else}}params.{{titleCase name}}{{/if}}{{#unless @last}}, {{/unless}}{{/each}}
+    )
+
+
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Handler error: " + err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, result)
+    {{else}}
+    err = {{handler_func_name}}(
+        {{#each handler_args}}{{#if is_body_arg}}body{{else}}params.{{name}}{{/if}}{{#unless @last}}, {{/unless}}{{/each}}
+    )
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Handler error: " + err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"status": "OK"})
+    {{/if}}
+}

@@ -1,4 +1,4 @@
-module user_update
+module templates/go/lib/user_update
 
 go 1.24.1
 

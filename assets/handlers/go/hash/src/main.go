@@ -1,7 +1,7 @@
 package hash
 
 import (
-	runtime "runtime"
+	"fmt"
 
 	argon2 "github.com/alexedwards/argon2id"
 )
@@ -23,21 +23,21 @@ const (
 //
 // Example:
 // hashedPassword := HashPassword("password")
-func HashPassword(password string) map[string]string {
+func HashPassword(password string) (map[string]string, error) {
 	// Define custom Argon2id parameters
 	// Using this package to avoid low level salt creation etc.
 	params := &argon2.Params{
-		Memory:      MEMORY_COST * 1024,
+		Memory:      MEMORY_COST,
 		Iterations:  TIME_COST,
-		Parallelism: uint8(runtime.NumCPU()),
+		Parallelism: 2,
 		SaltLength:  SALT_LEN,
 		KeyLength:   KEY_LEN,
 	}
 
 	hash, err := argon2.CreateHash(password, params)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to create hash: %v", err)
 	}
 
-	return map[string]string{"hash": hash}
+	return map[string]string{"hash": hash}, nil
 }

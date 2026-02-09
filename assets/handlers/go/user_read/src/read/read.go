@@ -3,20 +3,25 @@ package read
 import (
 	"context"
 	"errors"
+	"templates/go/lib/user_read/src/db"
+	"templates/go/lib/user_read/src/models"
+	"templates/go/lib/user_read/src/unmarshal"
 	"time"
-	"user_read/src/db"
-	"user_read/src/models"
-	"user_read/src/unmarshal"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // Gets a user by ID from the Database.
-func ReadUserByID(id string) (*models.User, error) {
+func ReadUserByID(id int) (*models.User, error) {
 	// Create a context for the MongoDB query
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	// Lazy initialization of MongoDB connection for db operations
+	if db.UserDb == nil {
+		db.InitMongo()
+	}
 
 	filter := bson.M{"_id": id}
 

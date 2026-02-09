@@ -1,4 +1,4 @@
-module invoice_delete
+module templates/go/lib/invoice_delete
 
 go 1.24.1
 

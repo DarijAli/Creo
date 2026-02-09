@@ -16,4 +16,3 @@ async fn {{name}}({{#if query_params}}
 
     {{#if has_return_type}}(StatusCode::OK, axum::Json(result)){{/if}}{{#unless has_return_type}}axum::http::StatusCode::OK{{/unless}}
 }
-

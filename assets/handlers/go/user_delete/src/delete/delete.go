@@ -2,8 +2,8 @@ package delete
 
 import (
 	"context"
+	"templates/go/lib/user_delete/src/db"
 	"time"
-	"user_delete/src/db"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -12,6 +12,11 @@ import (
 func DeleteUserByID(id int) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	// Lazy initialization of MongoDB connection for db operations
+	if db.UserDb == nil {
+		db.InitMongo()
+	}
 
 	filter := bson.M{"_id": id}
 

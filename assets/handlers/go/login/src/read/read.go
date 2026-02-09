@@ -3,8 +3,8 @@ package read
 import (
 	"context"
 	logError "log"
-	"login/src/db"
-	"login/src/models"
+	"templates/go/lib/login/src/db"
+	"templates/go/lib/login/src/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

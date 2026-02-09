@@ -10,7 +10,7 @@ import (
 func TestHashPassword(t *testing.T) {
 	password := "password"
 
-	hashedPassword := HashPassword(password)
+	hashedPassword, _ := HashPassword(password)
 
 	log.Println(hashedPassword)
 	hash := hashedPassword["hash"]

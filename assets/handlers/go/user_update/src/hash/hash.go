@@ -1,8 +1,6 @@
 package hash
 
 import (
-	runtime "runtime"
-
 	argon2 "github.com/alexedwards/argon2id"
 )
 
@@ -27,9 +25,9 @@ const (
 func HashPassword(password string) string {
 	// Define custom Argon2id parameters
 	params := &argon2.Params{
-		Memory:      MEMORY_COST * 1024,
+		Memory:      MEMORY_COST,
 		Iterations:  TIME_COST,
-		Parallelism: uint8(runtime.NumCPU()),
+		Parallelism: 2,
 		SaltLength:  SALT_LEN,
 		KeyLength:   KEY_LEN,
 	}

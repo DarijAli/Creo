@@ -22,14 +22,14 @@ type Item struct {
 }
 
 type OrderItem struct {
-	Item     Item `json:"item" validate:"required,dive"`
+	Item     Item `json:"item" validate:"required"`
 	Quantity int  `json:"quantity" validate:"required,gt=0"`
 }
 
 type Invoice struct {
-	Items           []OrderItem `json:"items" validate:"required,dive"`
-	BillingAddress  Address     `json:"billing_address" validate:"required,dive"`
-	ShippingAddress Address     `json:"shipping_address" validate:"required,dive"`
+	Items           []OrderItem `json:"items" validate:"required"`
+	BillingAddress  Address     `json:"billing_address" validate:"required"`
+	ShippingAddress Address     `json:"shipping_address" validate:"required"`
 	UserID          string      `json:"user_id" validate:"required"`
 	TaxRate         float64     `json:"tax_rate" validate:"gte=0"`
 	IssuedAt        time.Time   `json:"issued_at"`

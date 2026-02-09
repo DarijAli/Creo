@@ -3,16 +3,21 @@ package delete_invoice
 import (
 	"context"
 	"fmt"
-	"invoice_delete/src/db"
+	"templates/go/lib/invoice_delete/src/db"
 	"time"
 )
 
 // Deletes an invoice by its ID.
-func DeleteInvoiceByID(id string) (bool, error) {
+func DeleteInvoiceByID(id int) (bool, error) {
 	// Create the context with a timeout for MongoDB operation
 	// timeout can be increased/decreased depending on the needs.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	// Lazy initialization of MongoDB connection for db operations
+	if db.InvoiceDb == nil {
+		db.InitMongo()
+	}
 
 	deleteResult, err := db.InvoiceCollection.DeleteOne(ctx, map[string]any{"_id": id})
 	if err != nil {
